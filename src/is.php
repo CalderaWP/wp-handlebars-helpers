@@ -35,6 +35,15 @@ class is {
 		$args = $parts[0];
 		$value = $parts[1];
 
+		if ( is_string( $args ) && in_array( $args, self::if_checks() ) ) {
+			if ( call_user_func( $args ) ) {
+				return $source;
+			}else{
+				return null;
+			}
+
+		}
+
 		if (is_numeric($args)) {
 			$tmp = $args;
 		} else {
@@ -59,4 +68,25 @@ class is {
 
 	}
 
+	/**
+	 * Conditional checks to use with if
+	 *
+	 * @since 0.2.0
+	 *
+	 * @return array
+	 */
+	protected static function if_checks() {
+		return array(
+			'is_user_logged_in',
+			'is_single',
+			'is_singular',
+			'is_post_type_archive',
+			'is_page',
+			'is_front_page',
+			'is_home',
+			'is_tax'
+		);
+
+
+	}
 } 
