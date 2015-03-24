@@ -20,6 +20,9 @@ namespace calderawp\helpers;
 class is {
 	/**
 	 * Execute the is Helper for Handlebars.php {{#is variable value}} code {{else}} alt code {{/is}}
+	 * OR {{#is user_logged_in}} code {{else}} alt code {{/is}}
+	 * OR {{#is is_user_logged_in}} code {{else}} alt code {{/is}}
+	 * OR {{#is home}} code {{else}} alt code {{/is}}
 	 * based off the IfHelper
 	 *
 	 * @param \Handlebars\Template $template The template instance
@@ -30,16 +33,26 @@ class is {
 	 * @return mixed
 	 */
 	public static function helper( $template, $context, $args, $source ){
+		
+		$value = null;
 
-		$parts = explode(' ', $args);
-		$args = $parts[0];
-		$value = $parts[1];
+		if( false !== strpos( $args, ' ') ){
+			
+			$parts = explode(' ', $args);
+			$args = $parts[0];
+			$value = $parts[1];
 
-		if ( is_string( $args ) && in_array( $args, self::if_checks() ) ) {
+		}else if( in_array( $args, self::if_checks() ) ) {
+			// fix alias - because is is_user is annouting..!
+			if( false === strpos( $args, 'is_' ) ){
+				$args = 'is_' . $args;
+			}
 			if ( call_user_func( $args ) ) {
-				return $source;
+				$value = 1;
+				$args = 1;
 			}else{
-				return null;
+				$value = null;
+				$args = 1;
 			}
 
 		}
@@ -84,7 +97,15 @@ class is {
 			'is_page',
 			'is_front_page',
 			'is_home',
-			'is_tax'
+			'is_tax',
+			'user_logged_in',
+			'single',
+			'singular',
+			'post_type_archive',
+			'page',
+			'front_page',
+			'home',
+			'tax'
 		);
 
 
