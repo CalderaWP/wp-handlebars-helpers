@@ -29,7 +29,7 @@ class sanitize {
 	 */
 	public static function helper( $template, $context, $args, $source ){
 
-		$postionalArgs = $args->getPositionalArguments();
+		$postionalArgs = $template->parseArguments($args);
 
 		$tmp = $context->get($postionalArgs[0]);
 		
