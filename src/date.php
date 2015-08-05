@@ -31,7 +31,7 @@ class date {
 
 		$postionalArgs = $template->parseArguments($args);		
 
-		return date( $context->get($postionalArgs[2]), strtotime( $context->get($postionalArgs[1]) ) );
+		return date( $context->get($postionalArgs[1]), strtotime( $context->get($postionalArgs[0]) ) );
 
 	}
 
